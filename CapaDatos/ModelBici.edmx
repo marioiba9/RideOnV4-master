@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="basebicisModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Anclajes">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="IdEstacion" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEstacion" Type="int" Nullable="false" />
+          <Property Name="IdBici" Type="int" />
+        </EntityType>
+        <EntityType Name="Bicicletas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Estado" Type="bit" />
+        </EntityType>
+        <EntityType Name="Estaciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdAnclaje" Type="int" />
+          <Property Name="NumAnclajes" Type="int" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Recorridos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LugarSalida" Type="nchar" MaxLength="10" />
+          <Property Name="LugarLlegada" Type="nchar" MaxLength="10" />
+          <Property Name="FechaHora" Type="datetime" />
+          <Property Name="Tiempo" Type="int" />
+          <Property Name="Precio" Type="nchar" MaxLength="10" />
+          <Property Name="IdUsuario" Type="int" />
+          <Property Name="IdBici" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tarifas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TiempoMin" Type="int" />
+          <Property Name="PrecioPorMinuto" Type="int" />
+          <Property Name="TiempoMax" Type="int" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Movil" Type="int" />
+          <Property Name="Contraseña" Type="nvarchar" MaxLength="50" />
+          <Property Name="NumCuenta" Type="int" />
+          <Property Name="Monedero" Type="float" />
+        </EntityType>
+        <Association Name="FK_Anclajes_Bicicletas">
+          <End Role="Bicicletas" Type="Self.Bicicletas" Multiplicity="0..1" />
+          <End Role="Anclajes" Type="Self.Anclajes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bicicletas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Anclajes">
+              <PropertyRef Name="IdBici" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Anclajes_Estaciones">
+          <End Role="Estaciones" Type="Self.Estaciones" Multiplicity="1" />
+          <End Role="Anclajes" Type="Self.Anclajes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estaciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Anclajes">
+              <PropertyRef Name="IdEstacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recorridos_Bicicletas">
+          <End Role="Bicicletas" Type="Self.Bicicletas" Multiplicity="0..1" />
+          <End Role="Recorridos" Type="Self.Recorridos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bicicletas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recorridos">
+              <PropertyRef Name="IdBici" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recorridos_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="Recorridos" Type="Self.Recorridos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recorridos">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="basebicisModelStoreContainer">
+          <EntitySet Name="Anclajes" EntityType="Self.Anclajes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bicicletas" EntityType="Self.Bicicletas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estaciones" EntityType="Self.Estaciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recorridos" EntityType="Self.Recorridos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tarifas" EntityType="Self.Tarifas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Anclajes_Bicicletas" Association="Self.FK_Anclajes_Bicicletas">
+            <End Role="Bicicletas" EntitySet="Bicicletas" />
+            <End Role="Anclajes" EntitySet="Anclajes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Anclajes_Estaciones" Association="Self.FK_Anclajes_Estaciones">
+            <End Role="Estaciones" EntitySet="Estaciones" />
+            <End Role="Anclajes" EntitySet="Anclajes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recorridos_Bicicletas" Association="Self.FK_Recorridos_Bicicletas">
+            <End Role="Bicicletas" EntitySet="Bicicletas" />
+            <End Role="Recorridos" EntitySet="Recorridos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recorridos_Usuarios" Association="Self.FK_Recorridos_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Recorridos" EntitySet="Recorridos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="basebicisModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Anclaje">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="IdEstacion" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEstacion" Type="Int32" Nullable="false" />
+          <Property Name="IdBici" Type="Int32" />
+          <NavigationProperty Name="Bicicleta" Relationship="Self.FK_Anclajes_Bicicletas" FromRole="Anclajes" ToRole="Bicicletas" />
+          <NavigationProperty Name="Estacione" Relationship="Self.FK_Anclajes_Estaciones" FromRole="Anclajes" ToRole="Estaciones" />
+        </EntityType>
+        <EntityType Name="Bicicleta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Estado" Type="Boolean" />
+          <NavigationProperty Name="Anclajes" Relationship="Self.FK_Anclajes_Bicicletas" FromRole="Bicicletas" ToRole="Anclajes" />
+          <NavigationProperty Name="Recorridos" Relationship="Self.FK_Recorridos_Bicicletas" FromRole="Bicicletas" ToRole="Recorridos" />
+        </EntityType>
+        <EntityType Name="Estacione">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdAnclaje" Type="Int32" />
+          <Property Name="NumAnclajes" Type="Int32" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Anclajes" Relationship="Self.FK_Anclajes_Estaciones" FromRole="Estaciones" ToRole="Anclajes" />
+        </EntityType>
+        <EntityType Name="Recorrido">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LugarSalida" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="LugarLlegada" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FechaHora" Type="DateTime" Precision="3" />
+          <Property Name="Tiempo" Type="Int32" />
+          <Property Name="Precio" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <Property Name="IdBici" Type="Int32" />
+          <NavigationProperty Name="Bicicleta" Relationship="Self.FK_Recorridos_Bicicletas" FromRole="Recorridos" ToRole="Bicicletas" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Recorridos_Usuarios" FromRole="Recorridos" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Tarifa">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TiempoMin" Type="Int32" />
+          <Property Name="PrecioPorMinuto" Type="Int32" />
+          <Property Name="TiempoMax" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Movil" Type="Int32" />
+          <Property Name="Contraseña" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumCuenta" Type="Int32" />
+          <Property Name="Monedero" Type="Double" />
+          <NavigationProperty Name="Recorridos" Relationship="Self.FK_Recorridos_Usuarios" FromRole="Usuarios" ToRole="Recorridos" />
+        </EntityType>
+        <Association Name="FK_Anclajes_Bicicletas">
+          <End Role="Bicicletas" Type="Self.Bicicleta" Multiplicity="0..1" />
+          <End Role="Anclajes" Type="Self.Anclaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bicicletas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Anclajes">
+              <PropertyRef Name="IdBici" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Anclajes_Estaciones">
+          <End Role="Estaciones" Type="Self.Estacione" Multiplicity="1" />
+          <End Role="Anclajes" Type="Self.Anclaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estaciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Anclajes">
+              <PropertyRef Name="IdEstacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recorridos_Bicicletas">
+          <End Role="Bicicletas" Type="Self.Bicicleta" Multiplicity="0..1" />
+          <End Role="Recorridos" Type="Self.Recorrido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bicicletas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recorridos">
+              <PropertyRef Name="IdBici" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recorridos_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Recorridos" Type="Self.Recorrido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recorridos">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="basebicisEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Anclajes" EntityType="Self.Anclaje" />
+          <EntitySet Name="Bicicletas" EntityType="Self.Bicicleta" />
+          <EntitySet Name="Estaciones" EntityType="Self.Estacione" />
+          <EntitySet Name="Recorridos" EntityType="Self.Recorrido" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Tarifas" EntityType="Self.Tarifa" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK_Anclajes_Bicicletas" Association="Self.FK_Anclajes_Bicicletas">
+            <End Role="Bicicletas" EntitySet="Bicicletas" />
+            <End Role="Anclajes" EntitySet="Anclajes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Anclajes_Estaciones" Association="Self.FK_Anclajes_Estaciones">
+            <End Role="Estaciones" EntitySet="Estaciones" />
+            <End Role="Anclajes" EntitySet="Anclajes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recorridos_Bicicletas" Association="Self.FK_Recorridos_Bicicletas">
+            <End Role="Bicicletas" EntitySet="Bicicletas" />
+            <End Role="Recorridos" EntitySet="Recorridos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recorridos_Usuarios" Association="Self.FK_Recorridos_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Recorridos" EntitySet="Recorridos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="basebicisModelStoreContainer" CdmEntityContainer="basebicisEntities">
+          <EntitySetMapping Name="Anclajes">
+            <EntityTypeMapping TypeName="basebicisModel.Anclaje">
+              <MappingFragment StoreEntitySet="Anclajes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdEstacion" ColumnName="IdEstacion" />
+                <ScalarProperty Name="IdBici" ColumnName="IdBici" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bicicletas">
+            <EntityTypeMapping TypeName="basebicisModel.Bicicleta">
+              <MappingFragment StoreEntitySet="Bicicletas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estaciones">
+            <EntityTypeMapping TypeName="basebicisModel.Estacione">
+              <MappingFragment StoreEntitySet="Estaciones">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdAnclaje" ColumnName="IdAnclaje" />
+                <ScalarProperty Name="NumAnclajes" ColumnName="NumAnclajes" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recorridos">
+            <EntityTypeMapping TypeName="basebicisModel.Recorrido">
+              <MappingFragment StoreEntitySet="Recorridos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LugarSalida" ColumnName="LugarSalida" />
+                <ScalarProperty Name="LugarLlegada" ColumnName="LugarLlegada" />
+                <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
+                <ScalarProperty Name="Tiempo" ColumnName="Tiempo" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdBici" ColumnName="IdBici" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="basebicisModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tarifas">
+            <EntityTypeMapping TypeName="basebicisModel.Tarifa">
+              <MappingFragment StoreEntitySet="Tarifas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TiempoMin" ColumnName="TiempoMin" />
+                <ScalarProperty Name="PrecioPorMinuto" ColumnName="PrecioPorMinuto" />
+                <ScalarProperty Name="TiempoMax" ColumnName="TiempoMax" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="basebicisModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Movil" ColumnName="Movil" />
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+                <ScalarProperty Name="NumCuenta" ColumnName="NumCuenta" />
+                <ScalarProperty Name="Monedero" ColumnName="Monedero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

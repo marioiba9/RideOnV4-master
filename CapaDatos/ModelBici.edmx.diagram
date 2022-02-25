@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f4a6159a98ec4923beb5b7b936ae309e" Name="Diagram1">
+        <EntityTypeShape EntityType="basebicisModel.Anclaje" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="basebicisModel.Bicicleta" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="basebicisModel.Estacione" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="basebicisModel.Recorrido" Width="1.5" PointX="6" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="basebicisModel.sysdiagram" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="basebicisModel.Tarifa" Width="1.5" PointX="5.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="basebicisModel.Usuario" Width="1.5" PointX="3.75" PointY="8.5" IsExpanded="true" />
+        <AssociationConnector Association="basebicisModel.FK_Anclajes_Bicicletas" ManuallyRouted="false" />
+        <AssociationConnector Association="basebicisModel.FK_Anclajes_Estaciones" ManuallyRouted="false" />
+        <AssociationConnector Association="basebicisModel.FK_Recorridos_Bicicletas" ManuallyRouted="false" />
+        <AssociationConnector Association="basebicisModel.FK_Recorridos_Usuarios" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
